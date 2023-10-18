@@ -1,5 +1,6 @@
 package mde.lbg_cohort4;
 
+import java.util.Objects;
 import java.util.Scanner;
 
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
@@ -15,12 +16,15 @@ public class Main {
         String again;
         Scanner sc = new Scanner(System.in);
         do{
-            System.out.println("Please enter the amount");
+            System.out.println("Please enter the amount:");
             amount = sc.nextFloat();
-            System.out.println("Please enter the VAT rate");
+            System.out.println("Please enter the VAT rate (%):");
             VAT_rate = sc.nextFloat();
             total = amount*(100+VAT_rate)/100;
-        }while(true);
+            System.out.println("Total: £" + total);
+            System.out.println("Quit application by typing QUIT, enter to continue");
+            again = sc.next();
+        }while(!Objects.equals(again, "QUIT"));
     }
 
 }

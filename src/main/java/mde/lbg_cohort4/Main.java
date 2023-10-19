@@ -7,28 +7,33 @@ import java.util.Scanner;
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
 // then press Enter. You can now see whitespace characters in your code.
 public class Main {
-    private static final Scanner sc = new Scanner(System.in);
     public static void main(String[] args){
         take_input();
     }
     public static void take_input(){
         Double price;
         Double quantity;
-        Double VAT_rate;
+        int VAT_rate;
         ArrayList<PurchasedItem> items = new ArrayList<>();
         double total = 0.0;
 
         System.out.println("Enter each item's price, quantity and VAT rate or enter QUIT to end the program");
 
-        boolean again = true;
+        String quit = "";
 
-        while(again){
+        while(quit.compareToIgnoreCase("QUIT")!=0){
             // should be changed to inherit this and specify the type that's reqiured
 
-            UserInterface inter = new UserInterface();
-            price = inter.convert("Please enter the item amount: ");
-            quantity = inter.convert("Please enter the quantity of items: ");
-            VAT_rate = inter.convert("Please enter the VAT rate: ");
+            StringInterface stringInter = new StringInterface();
+            IntegerInterface intInter = new IntegerInterface();
+            DoubleInterface doubleInter = new DoubleInterface();
+
+            doubleInter.getUserInput("Please enter the item price: ");
+            price = doubleInter.getInput();
+            doubleInter.getUserInput("Please enter the quantity of items: ");
+            quantity = doubleInter.getInput();
+            intInter.getUserInput("Please enter the VAT rate: ");
+            VAT_rate = intInter.getInput();
 
 
             PurchasedItem newPurchase = new PurchasedItem(price,quantity,VAT_rate);
@@ -36,9 +41,8 @@ public class Main {
             total += newPurchase.totalPrice();
             System.out.printf("Current total is £%.2f\n",total);
 
-            System.out.println("Enter QUIT to leave, or ENTER to add other items");
-            String quit = sc.nextLine();
-            again = quit.compareToIgnoreCase("QUIT")!=0;
+            stringInter.getUserInput("Enter QUIT to leave, or ENTER to add other items\n");
+            quit = stringInter.getInput();
         }
 
         System.out.printf("Final total is £%.2f\n",total);
@@ -50,29 +54,99 @@ public class Main {
     }
 }
 
-class UserInterface {
-    private Double userInput = 0.0;
+// this is stupid to be done like this
+class InterfaceFactory{
 
-    public Double convert(String message) {
-        boolean validInput = false;
-        do {
-            System.out.print(message);
-            Scanner sc = new Scanner(System.in);
-            String rawUserInput = sc.next();
-            try {
-                this.userInput = Double.parseDouble(rawUserInput);
-                validInput = true;
-            } catch (NumberFormatException e) {
-                if (rawUserInput.compareToIgnoreCase("QUIT") != 0) {
-                    System.out.println("Invalid input, please try again");
-                } else {
-                    validInput = true;
-                }
-            }
-        } while (!validInput);
-        return userInput;
+
+}
+
+interface CommonInterface{
+    void getUserInput(String message);
+}
+
+class StringInterface implements CommonInterface{
+    private String input;
+    @Override
+    public void getUserInput(String message) {
+        System.out.print(message);
+        Scanner sc = new Scanner(System.in);
+        input = sc.next();
+    }
+
+    public String getInput() {
+        return input;
     }
 }
+
+class IntegerInterface implements CommonInterface {
+    private Integer input = null;
+    @Override
+    public void getUserInput(String message) {
+        Scanner sc = new Scanner(System.in);
+
+        do {
+            System.out.print(message);
+            String rawUserInput = sc.next();
+            try {
+                input = Integer.parseInt(rawUserInput);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input, please try again");
+            }
+        } while (input == null);
+    }
+
+    public int getInput() {
+        return input;
+    }
+}
+
+class DoubleInterface implements CommonInterface {
+    private Double input = null;
+    @Override
+    public void getUserInput(String message) {
+        Scanner sc = new Scanner(System.in);
+
+        do {
+            System.out.print(message);
+            String rawUserInput = sc.next();
+            try {
+                input =  Double.parseDouble(rawUserInput);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input, please try again");
+            }
+        } while (input==null);
+
+    }
+
+    public Double getInput() {
+        return input;
+    }
+}
+
+
+//class UserInterface {
+//    private Double userInput = 0.0;
+//
+//    public Double convert(String message) {
+//        boolean validInput = false;
+//        do {
+//            System.out.print(message);
+//            Scanner sc = new Scanner(System.in);
+//            String rawUserInput = sc.next();
+//            try {
+//                this.userInput = Double.parseDouble(rawUserInput);
+//                validInput = true;
+//            } catch (NumberFormatException e) {
+//                if (rawUserInput.compareToIgnoreCase("QUIT") != 0) {
+//                    System.out.println("Invalid input, please try again");
+//                } else {
+//                    validInput = true;
+//                }
+//            }
+//        } while (!validInput);
+//        return userInput;
+//    }
+//}
 
 class PurchasedItem{
     private final double price;

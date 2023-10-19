@@ -1,7 +1,7 @@
 package mde.lbg_cohort4;
 
 import java.util.ArrayList;
-import java.util.Objects;
+import java.util.Collections;
 import java.util.Scanner;
 
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
@@ -13,42 +13,39 @@ public class Main {
     }
     public static void take_input(){
 
-        float VAT_rate;
-        Float current_item;
-        ArrayList<Float> items = new ArrayList<>();
-        float total;
+        Double VAT_rate;
+        Double current_item = 0.0;
+        ArrayList<Double> items = new ArrayList<>();
+        Double total = 0.0;
 
-
-        System.out.println("Please enter the VAT rate (%):");
-        VAT_rate = sc.nextFloat();
+        VAT_rate = convert("Please enter the VAT rate (%): ");
 
         System.out.println("Enter each item's amount or enter QUIT to end the program");
 
-        String input_amount = "";
+        while(current_item != null){
 
-        while(!Objects.equals(input_amount, "QUIT")){
+            current_item = convert("Please enter the item amount: ");
 
-            current_item = convert("Please enter the item amount:");
-
-            // if null then quit has been entered
-            if (current_item == null){
-                break;
+            // if null then quit has been entered, so loop will end
+            if (current_item != null){
+                items.add(current_item);
+                total = calculate(items,VAT_rate);
+                System.out.printf("Current total is £%.2f\n",total);
             }
-
-            items.add(current_item);
-            total = calculate(items,VAT_rate);
-            System.out.println("Current total is £"+total);
         }
 
-        System.out.println("Final total is £"+calculate(items,VAT_rate));
+        System.out.printf("Final total is £%.2f\n",total);
+        System.out.println("Items in ascending order are:");
+        Collections.sort(items);
+        items.forEach(item -> System.out.printf("£%.2f\n",item));
 
     }
-    public static Float convert(String message){
+    public static Double convert(String message){
         do{
-            System.out.println(message);
+            System.out.print(message);
             String user_inp = sc.next();
             try{
-                return Float.parseFloat(user_inp);
+                return Double.parseDouble(user_inp);
             }catch (NumberFormatException e){
                 if (user_inp.compareToIgnoreCase("QUIT")!=0){
                     System.out.println("Invalid input, please try again");
@@ -59,9 +56,9 @@ public class Main {
         }while(true);
     }
 
-    public static float calculate(ArrayList<Float> items, float rate){
-        float sum = 0;
-        for(Float item:items) sum += item;
+    public static Double calculate(ArrayList<Double> items, Double rate){
+        Double sum = 0.0;
+        for(Double item:items) sum += item;
 
         return sum*(1+rate/100);
     }

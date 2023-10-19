@@ -14,6 +14,7 @@ public class Main {
         float VAT_rate;
         float total;
         String again;
+
         Scanner sc = new Scanner(System.in);
         do{
             System.out.println("Please enter the amount:");

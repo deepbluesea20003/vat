@@ -20,22 +20,25 @@ public class Main {
 
         System.out.println("Enter each item's price, quantity and VAT rate or enter QUIT to end the program");
 
-        while(true){
+        boolean again = true;
 
-            price = convert("Please enter the item amount: ");
-            if (price == null) break;
+        while(again){
+            // should be changed to inherit this and specify the type that's reqiured
 
-            quantity = convert("Please enter the quantity of items: ");
-            if (quantity == null) break;
+            UserInterface inter = new UserInterface();
+            price = inter.convert("Please enter the item amount: ");
+            quantity = inter.convert("Please enter the quantity of items: ");
+            VAT_rate = inter.convert("Please enter the VAT rate: ");
 
-            VAT_rate = convert("Please enter the VAT rate: ");
-            if (VAT_rate == null) break;
 
             PurchasedItem newPurchase = new PurchasedItem(price,quantity,VAT_rate);
             items.add(newPurchase);
             total += newPurchase.totalPrice();
             System.out.printf("Current total is £%.2f\n",total);
 
+            System.out.println("Enter QUIT to leave, or ENTER to add other items");
+            String quit = sc.nextLine();
+            again = quit.compareToIgnoreCase("QUIT")!=0;
         }
 
         System.out.printf("Final total is £%.2f\n",total);
@@ -47,29 +50,26 @@ public class Main {
     }
 }
 
-class Interface{
+class UserInterface {
     private Double userInput = 0.0;
-    private boolean quit = false;
-    public void convert(String message){
-        do{
+
+    public Double convert(String message) {
+        boolean validInput = false;
+        do {
             System.out.print(message);
             Scanner sc = new Scanner(System.in);
             String rawUserInput = sc.next();
-            boolean validInput = false;
-
-            try{
-                this.userInput =  Double.parseDouble(rawUserInput);
-            }catch (NumberFormatException e){
-                if (rawUserInput.compareToIgnoreCase("QUIT")!=0){
+            try {
+                this.userInput = Double.parseDouble(rawUserInput);
+                validInput = true;
+            } catch (NumberFormatException e) {
+                if (rawUserInput.compareToIgnoreCase("QUIT") != 0) {
                     System.out.println("Invalid input, please try again");
-                }else{
-                    quit=true;
+                } else {
+                    validInput = true;
                 }
             }
-        }while(userInput == 0.0);
-    }
-
-    public Double getUserInput() {
+        } while (!validInput);
         return userInput;
     }
 }

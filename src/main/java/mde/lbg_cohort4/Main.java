@@ -1,7 +1,7 @@
 package mde.lbg_cohort4;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Comparator;
 import java.util.Scanner;
 
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
@@ -12,32 +12,37 @@ public class Main {
         take_input();
     }
     public static void take_input(){
-
+        Double price;
+        Double quantity;
         Double VAT_rate;
-        Double current_item = 0.0;
-        ArrayList<Double> items = new ArrayList<>();
-        Double total = 0.0;
+        ArrayList<PurchasedItem> items = new ArrayList<>();
+        double total = 0.0;
 
-        VAT_rate = convert("Please enter the VAT rate (%): ");
+        System.out.println("Enter each item's price, quantity and VAT rate or enter QUIT to end the program");
 
-        System.out.println("Enter each item's amount or enter QUIT to end the program");
+        while(true){
 
-        while(current_item != null){
+            price = convert("Please enter the item amount: ");
+            if (price == null) break;
 
-            current_item = convert("Please enter the item amount: ");
+            quantity = convert("Please enter the quantity of items: ");
+            if (quantity == null) break;
 
-            // if null then quit has been entered, so loop will end
-            if (current_item != null){
-                items.add(current_item);
-                total = calculate(items,VAT_rate);
-                System.out.printf("Current total is £%.2f\n",total);
-            }
+            VAT_rate = convert("Please enter the VAT rate: ");
+            if (VAT_rate == null) break;
+
+            PurchasedItem newPurchase = new PurchasedItem(price,quantity,VAT_rate);
+            items.add(newPurchase);
+            total += newPurchase.totalPrice();
+            System.out.printf("Current total is £%.2f\n",total);
+
         }
 
         System.out.printf("Final total is £%.2f\n",total);
+
         System.out.println("Items in ascending order are:");
-        Collections.sort(items);
-        items.forEach(item -> System.out.printf("£%.2f\n",item));
+        items.sort(Comparator.comparingDouble(PurchasedItem::totalPrice));
+        items.forEach(item -> System.out.printf("£%.2f\n",item.totalPrice()));
 
     }
     public static Double convert(String message){
@@ -55,26 +60,19 @@ public class Main {
             }
         }while(true);
     }
-
-    public static Double calculate(ArrayList<Double> items, Double rate){
-        Double sum = 0.0;
-        for(Double item:items) sum += item;
-
-        return sum*(1+rate/100);
-    }
 }
 
 class PurchasedItem{
-    private double price = 0;
-    private double quantity = 0;
-    private double VAT_rate = 20;
+    private final double price;
+    private final double quantity;
+    private final double VAT_rate;
 
-    private PurchasedItem(double price, double quantity, double VAT_rate){
+    PurchasedItem(double price, double quantity, double VAT_rate){
         this.price = price;
         this.quantity = quantity;
         this.VAT_rate = VAT_rate;
     }
-    private double totalPrice(){
-        return quantity*price*VAT_rate;
+    double totalPrice(){
+        return quantity*price*(1+VAT_rate/100);
     }
 }

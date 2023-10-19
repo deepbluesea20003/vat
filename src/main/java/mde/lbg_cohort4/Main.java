@@ -63,3 +63,18 @@ public class Main {
         return sum*(1+rate/100);
     }
 }
+
+class PurchasedItem{
+    private double price = 0;
+    private double quantity = 0;
+    private double VAT_rate = 20;
+
+    private PurchasedItem(double price, double quantity, double VAT_rate){
+        this.price = price;
+        this.quantity = quantity;
+        this.VAT_rate = VAT_rate;
+    }
+    private double totalPrice(){
+        return quantity*price*VAT_rate;
+    }
+}

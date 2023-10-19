@@ -45,20 +45,32 @@ public class Main {
         items.forEach(item -> System.out.printf("£%.2f\n",item.totalPrice()));
 
     }
-    public static Double convert(String message){
+}
+
+class Interface{
+    private Double userInput = 0.0;
+    private boolean quit = false;
+    public void convert(String message){
         do{
             System.out.print(message);
-            String user_inp = sc.next();
+            Scanner sc = new Scanner(System.in);
+            String rawUserInput = sc.next();
+            boolean validInput = false;
+
             try{
-                return Double.parseDouble(user_inp);
+                this.userInput =  Double.parseDouble(rawUserInput);
             }catch (NumberFormatException e){
-                if (user_inp.compareToIgnoreCase("QUIT")!=0){
+                if (rawUserInput.compareToIgnoreCase("QUIT")!=0){
                     System.out.println("Invalid input, please try again");
                 }else{
-                    return null;
+                    quit=true;
                 }
             }
-        }while(true);
+        }while(userInput == 0.0);
+    }
+
+    public Double getUserInput() {
+        return userInput;
     }
 }
 
@@ -72,7 +84,7 @@ class PurchasedItem{
         this.quantity = quantity;
         this.VAT_rate = VAT_rate;
     }
-    double totalPrice(){
+    final double totalPrice(){
         return quantity*price*(1+VAT_rate/100);
     }
 }

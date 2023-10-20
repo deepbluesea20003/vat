@@ -1,17 +1,19 @@
 package mde.lbg_cohort4;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 abstract class DoubleInterface implements CommonInterface {
+
     @Override
-    public void getUserInput() {
+    public void getUserInput(PurchasedItem item ) {
         Scanner sc = new Scanner(System.in);
 
         do {
-            System.out.print(this.message);
             String rawUserInput = sc.next();
             try {
-                input =  Double.parseDouble(rawUserInput);
+                this.input =  Double.parseDouble(rawUserInput);
+                item.setPrice( input );
             } catch (NumberFormatException e) {
                 System.out.println("Invalid input, please try again");
             }

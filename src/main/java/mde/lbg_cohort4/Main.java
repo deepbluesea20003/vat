@@ -8,9 +8,10 @@ import java.util.Scanner;
 // then press Enter. You can now see whitespace characters in your code.
 public class Main {
     public static void main(String[] args){
-        run_program();
+        Main mm = new Main();
+        mm.run_program();
     }
-    public static void run_program(){
+    public void run_program(){
 
         ArrayList<PurchasedItem> items = new ArrayList<>();
         double total = 0.0;
@@ -29,14 +30,14 @@ public class Main {
         values.add(rates);
 
         while(quit.compareToIgnoreCase("QUIT")!=0){
+            PurchasedItem newItem = new PurchasedItem();
             for(CommonInterface value:values) {
                 value.displayMessage();
-                value.getUserInput();
+                value.getValue( newItem );
             }
 
-            PurchasedItem newPurchase = new PurchasedItem(values.get(0).get,quantity,VAT_rate);
-            items.add(newPurchase);
-            total += newPurchase.totalPrice();
+            items.add(newItem);
+            total += newItem.totalPrice();
             System.out.printf("Current total is £%.2f\n",total);
 
             System.out.println("Enter QUIT to leave, or ENTER to add other items\n");
@@ -54,7 +55,9 @@ public class Main {
 }
 
 interface CommonInterface{
-    void getUserInput();
+    void getUserInput( PurchasedItem item);
+
+    void getValue();
 
     void displayMessage();
 }

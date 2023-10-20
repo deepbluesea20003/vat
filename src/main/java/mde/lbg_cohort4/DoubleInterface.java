@@ -12,12 +12,12 @@ abstract class DoubleInterface implements CommonInterface {
         do {
             String rawUserInput = sc.next();
             try {
-                this.input =  Double.parseDouble(rawUserInput);
-                item.setPrice( input );
+                item.setPrice(Double.parseDouble(rawUserInput));
+                break;
             } catch (NumberFormatException e) {
                 System.out.println("Invalid input, please try again");
             }
-        } while (input==null);
+        } while (true);
     }
 
     @Override

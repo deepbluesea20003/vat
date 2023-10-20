@@ -1,9 +1,10 @@
 package mde.lbg_cohort4;
 
 class PurchasedItem{
-    private final double price;
-    private final int quantity;
-    private final int VAT_rate;
+
+    private  double price;
+    private  int quantity;
+    private  int VAT_rate;
 
     PurchasedItem(double price, int quantity, int VAT_rate){
         this.price = price;
@@ -17,6 +18,31 @@ class PurchasedItem{
         this.VAT_rate=0;
     }
     final double totalPrice(){
-        return quantity*price*(1+ (double) VAT_rate /100);
+        return price;
+        //return quantity*price*(1+ (double) VAT_rate /100);
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public int getVAT_rate() {
+        return VAT_rate;
+    }
+
+    public void setVAT_rate(int VAT_rate) {
+        this.VAT_rate = VAT_rate;
     }
 }

@@ -26,14 +26,14 @@ public class Main {
 
         ArrayList<CommonInterface> values = new ArrayList<>();
         values.add(prices);
-        values.add(quantities);
-        values.add(rates);
+//        values.add(quantities);
+//        values.add(rates);
 
         while(quit.compareToIgnoreCase("QUIT")!=0){
             PurchasedItem newItem = new PurchasedItem();
             for(CommonInterface value:values) {
                 value.displayMessage();
-                value.getValue( newItem );
+                value.getUserInput( newItem );
             }
 
             items.add(newItem);
@@ -56,8 +56,6 @@ public class Main {
 
 interface CommonInterface{
     void getUserInput( PurchasedItem item);
-
-    void getValue();
 
     void displayMessage();
 }

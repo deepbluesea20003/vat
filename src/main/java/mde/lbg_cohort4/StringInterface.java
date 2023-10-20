@@ -5,10 +5,14 @@ import java.util.Scanner;
 class StringInterface implements CommonInterface{
 
     @Override
-    public void getUserInput() {
-        System.out.print(this.message);
+    public void getUserInput(PurchasedItem item) {
         Scanner sc = new Scanner(System.in);
-        input = sc.next();
+        //item.set = sc.next();
+    }
+
+    @Override
+    public void displayMessage() {
+
     }
 
 }

@@ -4,31 +4,25 @@ import java.util.Scanner;
 
 class IntegerInterface implements CommonInterface {
 
-    private String message;
+
 
     @Override
-    public void getUserInput() {
+    public void getUserInput(PurchasedItem item) {
         Scanner sc = new Scanner(System.in);
 
         do {
-            System.out.print(this.message);
             String rawUserInput = sc.next();
             try {
-                input = Integer.parseInt(rawUserInput);
+                item.setQuantity(Integer.parseInt(rawUserInput));
+                break;
             } catch (NumberFormatException e) {
                 System.out.println("Invalid input, please try again");
             }
-        } while (input == null);
+        } while (true);
     }
 
     @Override
-    public void setMessage(String message) {
-        this.message = message;
-    }
+    public void displayMessage() {
 
-    @Override
-    public String getMessage() {
-        return this.message;
     }
-
 }

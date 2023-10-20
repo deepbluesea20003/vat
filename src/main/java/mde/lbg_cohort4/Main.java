@@ -26,8 +26,8 @@ public class Main {
 
         ArrayList<CommonInterface> values = new ArrayList<>();
         values.add(prices);
-//        values.add(quantities);
-//        values.add(rates);
+        values.add(quantities);
+        values.add(rates);
 
         while(quit.compareToIgnoreCase("QUIT")!=0){
             PurchasedItem newItem = new PurchasedItem();

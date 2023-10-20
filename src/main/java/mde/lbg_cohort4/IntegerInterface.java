@@ -2,10 +2,7 @@ package mde.lbg_cohort4;
 
 import java.util.Scanner;
 
-class IntegerInterface implements CommonInterface {
-
-
-
+abstract class IntegerInterface implements CommonInterface {
     @Override
     public void getUserInput(PurchasedItem item) {
         Scanner sc = new Scanner(System.in);
@@ -22,7 +19,5 @@ class IntegerInterface implements CommonInterface {
     }
 
     @Override
-    public void displayMessage() {
-
-    }
+    abstract public void displayMessage();
 }

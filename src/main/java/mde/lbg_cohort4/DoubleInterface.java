@@ -1,6 +1,5 @@
 package mde.lbg_cohort4;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 abstract class DoubleInterface implements CommonInterface {
